@@ -9,7 +9,7 @@ type TodoListPropsType = {
     valueName: string
     title: string
     tasks: Array<TaskType>
-}
+    }
 
 export type TaskType = {
     id: number
@@ -18,12 +18,17 @@ export type TaskType = {
 }
 
 export const Todolist = (props: TodoListPropsType) => {
+    const buttonName = [
+        "All",
+        "Active",
+        "Completed"
+    ]
     return (
         <div>
             <TodoListHeader title={props.title}/>
             <AddItemForm valueNamePlus={props.valueName}/>
             <TasksList tasks={props.tasks}/>
-            <ControlButtons buttonName={"All"} buttonName1={"Active"} buttonName2={"Completed"}/>
+            <ControlButtons buttonName={buttonName}/>
         </div>
     );
 };

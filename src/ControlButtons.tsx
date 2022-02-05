@@ -1,18 +1,18 @@
 import React from 'react';
 import {Button} from "./Button";
 
-type ControlButtonsPropsType = {
-    buttonName : string
-    buttonName1 : string
-    buttonName2 : string
+export type ControlButtonsPropsType = {
+    buttonName: Array<string>
+
 }
 
-export const ControlButtons = (props: ControlButtonsPropsType ) => {
+export const ControlButtons = (props: ControlButtonsPropsType) => {
+
     return (
         <div>
-            <Button valueName={props.buttonName}/>
-            <Button valueName={props.buttonName1}/>
-            <Button valueName={props.buttonName2}/>
+            <Button valueName={props.buttonName[0]}/>
+            <Button valueName={props.buttonName[1]}/>
+            <Button valueName={props.buttonName[2]}/>
         </div>
     )
         ;

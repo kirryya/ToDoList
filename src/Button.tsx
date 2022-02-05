@@ -1,4 +1,6 @@
 import React from 'react';
+import { ControlButtonsPropsType } from './ControlButtons';
+
 
 type ButtonPropsType = {
     valueName: string
