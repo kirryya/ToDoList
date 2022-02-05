@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import Todolist, {TaskType} from "./Todolist";
+import {Todolist} from "./Todolist";
+import {TaskType} from "./Todolist"
 
 
 function App() {

@@ -2,7 +2,7 @@ import React from 'react';
 import {TodoListHeader} from "./TodoListHeader";
 import {ControlButtons} from "./ControlButtons";
 import {AddItemForm} from "./AddItemForm";
-import TasksList from "./TasksList";
+import {TasksList} from "./TasksList";
 
 
 type TodoListPropsType = {
@@ -17,7 +17,7 @@ export type TaskType = {
     isDone: boolean
 }
 
-const Todolist = (props: TodoListPropsType) => {
+export const Todolist = (props: TodoListPropsType) => {
     return (
         <div>
             <TodoListHeader title={props.title}/>
@@ -28,4 +28,3 @@ const Todolist = (props: TodoListPropsType) => {
     );
 };
 
-export default Todolist;

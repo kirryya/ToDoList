@@ -1,12 +1,12 @@
 import React from 'react';
-import Task from "./Task";
+import {Task} from "./Task";
 import {TaskType} from "./Todolist";
 
 type TasksListPropsType = {
     tasks: Array<TaskType>
 }
 
-const TasksList = (props: TasksListPropsType) => {
+export const TasksList = (props: TasksListPropsType) => {
     return (
         <ul>
             <Task id={props.tasks[0].id} title={props.tasks[0].title} isDone={props.tasks[0].isDone}/>
@@ -15,5 +15,3 @@ const TasksList = (props: TasksListPropsType) => {
         </ul>
     );
 };
-
-export default TasksList;
