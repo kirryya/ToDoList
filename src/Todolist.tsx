@@ -6,7 +6,7 @@ import {TasksList} from "./TasksList";
 
 
 type TodoListPropsType = {
-    valueName: string
+    valueNamePlus: string
     title: string
     tasks: Array<TaskType>
 }
@@ -26,7 +26,7 @@ export const Todolist = (props: TodoListPropsType) => {
     return (
         <div>
             <TodoListHeader title={props.title}/>
-            <AddItemForm valueNamePlus={props.valueName}/>
+            <AddItemForm valueNamePlus={props.valueNamePlus}/>
             <TasksList tasks={props.tasks}/>
             <ControlButtons buttonName={buttonName}/>
         </div>

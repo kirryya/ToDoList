@@ -23,9 +23,9 @@ function App() {
 
     return (
         <div className="App">
-            <Todolist title={"What to learn"} tasks={tasks_1} valueName={'+'}/>
-            <Todolist title={"What to read"} tasks={tasks_2} valueName={'+'}/>
-            <Todolist title={"What to do"} tasks={tasks_3} valueName={'+'}/>
+            <Todolist title={"What to learn"} tasks={tasks_1} valueNamePlus={'+'} />
+            <Todolist title={"What to read"} tasks={tasks_2} valueNamePlus={'Добавить'} />
+            <Todolist title={"What to do"} tasks={tasks_3} valueNamePlus={'Plus'}/>
         </div>
     );
 }
