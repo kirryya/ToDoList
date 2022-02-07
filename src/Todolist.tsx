@@ -3,12 +3,15 @@ import {TodoListHeader} from "./TodoListHeader";
 import {ControlButtons} from "./ControlButtons";
 import {AddItemForm} from "./AddItemForm";
 import {TasksList} from "./TasksList";
+import {FilterValuesType} from "./App";
 
 
 type TodoListPropsType = {
     valueNamePlus: string
     title: string
     tasks: Array<TaskType>
+    removeTask: (taskID: number) => void
+    changeFilter: (filter: FilterValuesType) => void
 }
 
 export type TaskType = {
@@ -27,8 +30,8 @@ export const Todolist = (props: TodoListPropsType) => {
         <div>
             <TodoListHeader title={props.title}/>
             <AddItemForm valueNamePlus={props.valueNamePlus}/>
-            <TasksList tasks={props.tasks}/>
-            <ControlButtons buttonName={buttonName}/>
+            <TasksList tasks={props.tasks} removeTask={props.removeTask}/>
+            <ControlButtons buttonName={buttonName} changeFilter={props.changeFilter}/>
         </div>
     );
 };

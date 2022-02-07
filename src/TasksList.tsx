@@ -1,17 +1,27 @@
 import React from 'react';
 import {Task} from "./Task";
 import {TaskType} from "./Todolist";
+import {FilterValuesType} from "./App";
 
 type TasksListPropsType = {
     tasks: Array<TaskType>
+    removeTask: (taskID: number) => void
+
 }
 
 export const TasksList = (props: TasksListPropsType) => {
+    const tasksComponentsList = props.tasks.map(task => {
+        return (
+            <Task
+                key={task.id}
+                {...task}
+                removeTask={props.removeTask}
+            />
+        )
+    })
     return (
         <ul>
-            <Task id={props.tasks[0].id} title={props.tasks[0].title} isDone={props.tasks[0].isDone}/>
-            <Task id={props.tasks[1].id} title={props.tasks[1].title} isDone={props.tasks[1].isDone}/>
-            <Task id={props.tasks[2].id} title={props.tasks[2].title} isDone={props.tasks[2].isDone}/>
+            {tasksComponentsList}
         </ul>
     );
 };
