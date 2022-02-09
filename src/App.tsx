@@ -15,33 +15,21 @@ function App() {
 
     const [filter, setFilter] = useState<FilterValuesType>("all")
 
-
-    /*let tasks_2: Array<TaskType> = [
-        {id: 1, title: "book", isDone: true},
-        {id: 2, title: "journal", isDone: true},
-        {id: 3, title: "instruction", isDone: false},
-    ]
-    let tasks_3: Array<TaskType> = [
-        {id: 1, title: "Run", isDone: true},
-        {id: 2, title: "Eat", isDone: false},
-        {id: 3, title: "Sleep", isDone: true},
-    ]*/
-
     const removeTask = (taskID: number) => {
         const filteredTasks = tasks.filter(task => task.id !== taskID)
         setTasks(filteredTasks)
     }
 
     const changeFilter = (filter: FilterValuesType) => {
-      setFilter(filter)
+        setFilter(filter)
     }
 
     const getFilteredTasks = () => {
         switch (filter) {
             case "completed":
-                return tasks.filter(task => task.isDone === true)
+                return tasks.filter(task => task.isDone)
             case "active":
-                return tasks.filter(task => task.isDone === false)
+                return tasks.filter(task => !task.isDone)
             default:
                 return tasks
         }
@@ -52,9 +40,13 @@ function App() {
 
     return (
         <div className="App">
-            <Todolist title={"What to learn"} tasks={filteredTasks} valueNamePlus={'+'} removeTask={removeTask} changeFilter={changeFilter}/>
-            {/* <Todolist title={"What to read"} tasks={tasks_2} valueNamePlus={'Add'} removeTask={removeTask} />
-            <Todolist title={"What to do"} tasks={tasks_3} valueNamePlus={'Plus'} removeTask={removeTask}/>*/}
+            <Todolist
+                title={"What to learn"}
+                tasks={filteredTasks}
+                valueNamePlus={'+'}
+                removeTask={removeTask}
+                changeFilter={changeFilter}
+            />
         </div>
     );
 }

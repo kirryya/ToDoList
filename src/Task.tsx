@@ -1,7 +1,7 @@
 import React from 'react';
 import {TaskType} from "./Todolist";
 
-type TaskPropsType = TaskType & {removeTask: (taskID: number) => void}
+type TaskPropsType = TaskType & { removeTask: (taskID: number) => void }
 
 export const Task = (props: TaskPropsType) => {
     return (

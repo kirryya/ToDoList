@@ -12,9 +12,9 @@ export const ControlButtons = (props: ControlButtonsPropsType) => {
 
     return (
         <div>
-            <button onClick={() => {props.changeFilter("all")}}>All</button>
-            <button onClick={() => {props.changeFilter("active")}}>Active</button>
-            <button onClick={() => {props.changeFilter("completed")}}>Completed</button>
+            <button onClick={() => {props.changeFilter("all")}}>{props.buttonName[0]}</button>
+            <button onClick={() => {props.changeFilter("active")}}>{props.buttonName[1]}</button>
+            <button onClick={() => {props.changeFilter("completed")}}>{props.buttonName[2]}</button>
         </div>
     )
         ;

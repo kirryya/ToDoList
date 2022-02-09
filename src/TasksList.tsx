@@ -1,7 +1,6 @@
 import React from 'react';
 import {Task} from "./Task";
 import {TaskType} from "./Todolist";
-import {FilterValuesType} from "./App";
 
 type TasksListPropsType = {
     tasks: Array<TaskType>
