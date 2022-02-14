@@ -10,12 +10,15 @@ export type ControlButtonsPropsType = {
 
 export const ControlButtons = (props: ControlButtonsPropsType) => {
 
+    const onClickSetFilter = (filter: FilterValuesType) => {
+        return () => props.changeFilter(filter)
+    }
+
     return (
         <div>
-            <button onClick={() => {props.changeFilter("all")}}>{props.buttonName[0]}</button>
-            <button onClick={() => {props.changeFilter("active")}}>{props.buttonName[1]}</button>
-            <button onClick={() => {props.changeFilter("completed")}}>{props.buttonName[2]}</button>
+            <button onClick={() => {onClickSetFilter("all")}}>{props.buttonName[0]}</button>
+            <button onClick={() => {onClickSetFilter("active")}}>{props.buttonName[1]}</button>
+            <button onClick={() => {onClickSetFilter("completed")}}>{props.buttonName[2]}</button>
         </div>
-    )
-        ;
+    );
 };
