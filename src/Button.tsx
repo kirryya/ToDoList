@@ -2,7 +2,6 @@ import React from 'react';
 
 type ButtonPropsType = {
     valueName: string
-
 }
 
 export const Button = (props: ButtonPropsType) => {

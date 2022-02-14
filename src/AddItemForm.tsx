@@ -2,14 +2,15 @@ import React from 'react';
 import {Button} from "./Button";
 
 type AddItemFormPropsType = {
-    valueNamePlus: string
+    addTask: (title: string) => void
 }
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
+    const onClickAddTask = () => props.addTask("New task")
     return (
         <div>
             <input/>
-            <Button valueName={props.valueNamePlus}/>
+            <button onClick={onClickAddTask}>+</button>
         </div>
     );
 };
