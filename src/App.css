@@ -15,3 +15,7 @@
   background-color: cornflowerblue;
   color: gold;
 }
+.error {
+  outline: none;
+  border-color: red;
+}
