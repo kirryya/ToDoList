@@ -36,19 +36,13 @@ function App() {
         setFilter(filter)
     }
 
-    const getFilteredTasks = () => {
-        switch (filter) {
-            case "completed":
-                return tasks.filter(task => task.isDone)
-            case "active":
-                return tasks.filter(task => !task.isDone)
-            default:
-                return tasks
-        }
-
+    let filteredTasks = tasks
+    if (filter === "completed") {
+        filteredTasks = tasks.filter(task => task.isDone)
     }
-
-    const filteredTasks = getFilteredTasks();
+    if (filter === "active") {
+        filteredTasks = tasks.filter(task => !task.isDone)
+    }
 
     return (<div className="App">
             <Todolist
@@ -57,6 +51,7 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                filter={filter}
             />
         </div>
     );

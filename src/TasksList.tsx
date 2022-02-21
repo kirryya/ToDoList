@@ -17,9 +17,10 @@ export const TasksList = (props: TasksListPropsType) => {
             />
         )
     })
-    return (
-        <ul>
-            {tasksComponentsList}
-        </ul>
+    return (tasksComponentsList.length ?
+            <ul>
+                {tasksComponentsList}
+            </ul>
+            : <span>Tasks list is empty. Please, change or add task!</span>
     );
 };

@@ -6,3 +6,12 @@
 .App > div {
   margin-right: 50px;
 }
+
+.completed-task {
+  opacity: 0.5;
+}
+
+.button-active {
+  background-color: cornflowerblue;
+  color: gold;
+}
