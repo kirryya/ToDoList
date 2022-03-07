@@ -2,10 +2,11 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 
 
 type AddItemFormPropsType = {
-    addTask: (title: string) => void
+    addTask: (todolistId: string, title: string) => void
+    todolistId: string
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({addTask}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = ({addTask, todolistId}) => {
 
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState(false)
@@ -13,7 +14,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addTask}) => {
     const onClickAddTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
-            addTask(trimmedTitle)
+            addTask(todolistId, trimmedTitle)
         } else {
             setError(true)
         }
