@@ -3,11 +3,11 @@ import {TaskType} from "./Todolist";
 
 type TaskPropsType = TaskType &
     { removeTask: (todolistId: string, taskID: string) => void } &
-    { changeTaskStatus: (taskID: string, isDone: boolean) => void } & {todolistId: string}
+    { changeTaskStatus: (todolistId: string, taskID: string, isDone: boolean) => void } & {todolistId: string}
 
 export const Task = (props: TaskPropsType) => {
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-        props.changeTaskStatus(props.id, e.currentTarget.checked)
+        props.changeTaskStatus(props.todolistId, props.id, e.currentTarget.checked)
 
     return (
         <li className={props.isDone ? "completed-task" : ""}>
