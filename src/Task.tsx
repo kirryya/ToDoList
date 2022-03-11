@@ -15,7 +15,10 @@ export const Task = (props: TaskPropsType) => {
                    onChange={changeTaskStatus}
                    checked={props.isDone}/>
             <span>{props.title}</span>
-            <button onClick={() => {props.removeTask(props.id)}}>X</button>
+            <button onClick={() => {
+                props.removeTask(props.id)
+            }}>X
+            </button>
         </li>
     );
 };

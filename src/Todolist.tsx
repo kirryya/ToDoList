@@ -11,11 +11,12 @@ type TodoListPropsType = {
     tasks: Array<TaskType>
     removeTask: (todolistId: string, taskID: string) => void
     changeFilter: (todolistId: string, filter: FilterValuesType) => void
-    addTask: (todolistId: string, title: string) => void
+    addItem: (todolistId: string, title: string) => void
     filter: FilterValuesType
     changeTaskStatus: (todolistId: string, taskID: string, isDone: boolean) => void
     todolistId: string
     removeTodolist: (todolistId: string) => void
+    addTodolist: (newTodolistTitle: string) => void
 }
 
 export type TaskType = {
@@ -26,10 +27,11 @@ export type TaskType = {
 
 export const Todolist = (props: TodoListPropsType) => {
 
-    const addTaskHandler = (title: string) => props.addTask(props.todolistId, title)
+    const addTaskHandler = (title: string) => props.addItem(props.todolistId, title)
     const removeTaskHandler = (taskID: string) => props.removeTask(props.todolistId, taskID)
     const changeTaskStatusHandler = (taskID: string, isDone: boolean) => props.changeTaskStatus(props.todolistId, taskID, isDone)
     const changeFilterHandler = (filter: FilterValuesType) => props.changeFilter(props.todolistId, filter)
+    const removeTodolistHandler = () => props.removeTodolist(props.todolistId)
 
     const buttonName = [
         "All",
@@ -38,8 +40,8 @@ export const Todolist = (props: TodoListPropsType) => {
     ]
     return (
         <div>
-            <TodoListHeader title={props.title} removeTodolist={props.removeTodolist} todolistId={props.todolistId}/>
-            <AddItemForm addTask={addTaskHandler}/>
+            <TodoListHeader title={props.title} removeTodolist={removeTodolistHandler}/>
+            <AddItemForm addItem={addTaskHandler}/>
             <TasksList tasks={props.tasks} removeTask={removeTaskHandler} changeTaskStatus={changeTaskStatusHandler}/>
             <ControlButtons buttonName={buttonName} changeFilter={changeFilterHandler} filter={props.filter}/>
         </div>

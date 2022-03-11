@@ -2,18 +2,18 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 
 
 type AddItemFormPropsType = {
-    addTask: (title: string) => void
+    addItem: (title: string) => void
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({addTask}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
 
     const [title, setTitle] = useState<string>("")
-    const [error, setError] = useState(false)
+    const [error, setError] = useState<boolean>(false)
 
     const onClickAddTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
-            addTask(trimmedTitle)
+            addItem(trimmedTitle)
         } else {
             setError(true)
         }
@@ -25,13 +25,13 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addTask}) => {
         setError(false)
     }
     const onKeyPressSetTitle = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.key === "Enter") {
+        if (e.key === "Enter") {
             onClickAddTask()
         }
     }
 
     const errorMessage = error
-      ? <div style={{background: "red"}}> Title is require! </div>
+        ? <div style={{background: "red"}}> Title is require! </div>
         : null
 
     return (
