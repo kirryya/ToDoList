@@ -4,9 +4,8 @@ import {TaskType} from "./Todolist";
 
 type TasksListPropsType = {
     tasks: Array<TaskType>
-    removeTask: (todolistId: string, taskID: string) => void
-    changeTaskStatus: (todolistId: string, taskID: string, isDone: boolean) => void
-    todolistId: string
+    removeTask: (taskID: string) => void
+    changeTaskStatus: (taskID: string, isDone: boolean) => void
 }
 
 export const TasksList = (props: TasksListPropsType) => {
@@ -17,7 +16,6 @@ export const TasksList = (props: TasksListPropsType) => {
                 {...task}
                 removeTask={props.removeTask}
                 changeTaskStatus={props.changeTaskStatus}
-                todolistId={props.todolistId}
             />
         )
     })

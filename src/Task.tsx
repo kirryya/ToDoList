@@ -2,12 +2,12 @@ import React, {ChangeEvent} from 'react';
 import {TaskType} from "./Todolist";
 
 type TaskPropsType = TaskType &
-    { removeTask: (todolistId: string, taskID: string) => void } &
-    { changeTaskStatus: (todolistId: string, taskID: string, isDone: boolean) => void } & {todolistId: string}
+    { removeTask: (taskID: string) => void } &
+    { changeTaskStatus: (taskID: string, isDone: boolean) => void }
 
 export const Task = (props: TaskPropsType) => {
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-        props.changeTaskStatus(props.todolistId, props.id, e.currentTarget.checked)
+        props.changeTaskStatus(props.id, e.currentTarget.checked)
 
     return (
         <li className={props.isDone ? "completed-task" : ""}>
@@ -15,7 +15,7 @@ export const Task = (props: TaskPropsType) => {
                    onChange={changeTaskStatus}
                    checked={props.isDone}/>
             <span>{props.title}</span>
-            <button onClick={() => {props.removeTask(props.todolistId, props.id)}}>X</button>
+            <button onClick={() => {props.removeTask(props.id)}}>X</button>
         </li>
     );
 };

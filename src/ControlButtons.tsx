@@ -3,15 +3,14 @@ import {FilterValuesType} from "./App";
 
 export type ControlButtonsPropsType = {
     buttonName: Array<string>
-    changeFilter: (todolistId: string, filter: FilterValuesType) => void
+    changeFilter: (filter: FilterValuesType) => void
     filter: FilterValuesType
-    todolistId: string
 }
 
 export const ControlButtons = (props: ControlButtonsPropsType) => {
 
     const onClickSetFilter = (filter: FilterValuesType) => {
-        return () => props.changeFilter(props.todolistId, filter)
+        return () => props.changeFilter(filter)
     }
 
     return (
