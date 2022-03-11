@@ -1,9 +1,11 @@
 import React, {ChangeEvent} from 'react';
 import {TaskType} from "./Todolist";
+import {EditableSpan} from "./EditableSpan";
 
 type TaskPropsType = TaskType &
     { removeTask: (taskID: string) => void } &
-    { changeTaskStatus: (taskID: string, isDone: boolean) => void }
+    { changeTaskStatus: (taskID: string, isDone: boolean) => void } &
+    { changeTaskTitle: (title: string) => void }
 
 export const Task = (props: TaskPropsType) => {
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
@@ -14,7 +16,7 @@ export const Task = (props: TaskPropsType) => {
             <input type="checkbox"
                    onChange={changeTaskStatus}
                    checked={props.isDone}/>
-            <span>{props.title}</span>
+            <EditableSpan title={props.title} changeTitle={props.changeTaskTitle}/>
             <button onClick={() => {
                 props.removeTask(props.id)
             }}>X

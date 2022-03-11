@@ -17,6 +17,8 @@ type TodoListPropsType = {
     todolistId: string
     removeTodolist: (todolistId: string) => void
     addTodolist: (newTodolistTitle: string) => void
+    changeTaskTitle: (todolistId: string, taskID: string, title: string) => void
+    changeTodolistTitle: (todolistId: string, title: string) => void
 }
 
 export type TaskType = {
@@ -27,11 +29,14 @@ export type TaskType = {
 
 export const Todolist = (props: TodoListPropsType) => {
 
-    const addTaskHandler = (title: string) => props.addItem(props.todolistId, title)
+    const addItemHandler = (title: string) => props.addItem(props.todolistId, title)
     const removeTaskHandler = (taskID: string) => props.removeTask(props.todolistId, taskID)
     const changeTaskStatusHandler = (taskID: string, isDone: boolean) => props.changeTaskStatus(props.todolistId, taskID, isDone)
     const changeFilterHandler = (filter: FilterValuesType) => props.changeFilter(props.todolistId, filter)
     const removeTodolistHandler = () => props.removeTodolist(props.todolistId)
+    const changeTaskTitleHandler = (taskID: string, title: string) => props.changeTaskTitle(props.todolistId, taskID, title)
+    const changeTodolistTitleHandler = (title: string) => props.changeTodolistTitle(props.todolistId, title)
+
 
     const buttonName = [
         "All",
@@ -40,9 +45,11 @@ export const Todolist = (props: TodoListPropsType) => {
     ]
     return (
         <div>
-            <TodoListHeader title={props.title} removeTodolist={removeTodolistHandler}/>
-            <AddItemForm addItem={addTaskHandler}/>
-            <TasksList tasks={props.tasks} removeTask={removeTaskHandler} changeTaskStatus={changeTaskStatusHandler}/>
+            <TodoListHeader title={props.title} removeTodolist={removeTodolistHandler}
+                            changeTodolistTitle={changeTodolistTitleHandler}/>
+            <AddItemForm addItem={addItemHandler}/>
+            <TasksList tasks={props.tasks} removeTask={removeTaskHandler} changeTaskStatus={changeTaskStatusHandler}
+                       changeTaskTitle={changeTaskTitleHandler}/>
             <ControlButtons buttonName={buttonName} changeFilter={changeFilterHandler} filter={props.filter}/>
         </div>
     );
