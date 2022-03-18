@@ -1,5 +1,6 @@
 import React from 'react';
 import {FilterValuesType} from "./App";
+import {Button} from "@material-ui/core";
 
 export type ControlButtonsPropsType = {
     buttonName: Array<string>
@@ -15,15 +16,15 @@ export const ControlButtons = (props: ControlButtonsPropsType) => {
 
     return (
         <div>
-            <button
-                className={props.filter === "all" ? "button-active" : ""}
-                onClick={onClickSetFilter("all")}>{props.buttonName[0]}</button>
-            <button
-                className={props.filter === "active" ? "button-active" : ""}
-                onClick={onClickSetFilter("active")}>{props.buttonName[1]}</button>
-            <button
-                className={props.filter === "completed" ? "button-active" : ""}
-                onClick={onClickSetFilter("completed")}>{props.buttonName[2]}</button>
+            <Button variant={props.filter === "all" ? "contained" : "outlined"}
+                    onClick={onClickSetFilter("all")}>{props.buttonName[0]}
+            </Button>
+            <Button variant={props.filter === "active" ? "contained" : "outlined"}
+                    onClick={onClickSetFilter("active")}>{props.buttonName[1]}
+            </Button>
+            <Button variant={props.filter === "completed" ? "contained" : "outlined"}
+                    onClick={onClickSetFilter("completed")}>{props.buttonName[2]}
+            </Button>
         </div>
     );
 };
