@@ -7,7 +7,7 @@ import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
 
 export type FilterValuesType = "all" | "active" | "completed"
-type todolistsType = {
+export type todolistsType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -51,8 +51,10 @@ function App() {
         setTasks({...tasks, [todolistId]: tasks[todolistId].map(el => el.id === taskID ? {...el, isDone: isDone} : el)})
     }
 
-    const changeFilter = (todolistId: string, filter: FilterValuesType) =>
-        setTodolist(todolists.map(el => el.id === todolistId ? {...el, filter: filter} : el))
+    const changeTaskTitle = (todolistId: string, taskID: string, title: string) => {
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map(el => el.id === taskID ? {...el, title: title} : el)})
+
+    }
 
     const removeTodolist = (todolistId: string) => {
         setTodolist(todolists.filter(el => el.id !== todolistId))
@@ -66,10 +68,10 @@ function App() {
         setTasks({...tasks, [newTodolistId]: []})
     }
 
-    const changeTaskTitle = (todolistId: string, taskID: string, title: string) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(el => el.id === taskID ? {...el, title: title} : el)})
-
+    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
+        setTodolist(todolists.map(el => el.id === todolistId ? {...el, filter: filter} : el))
     }
+
     const changeTodolistTitle = (todolistId: string, title: string) => {
         setTodolist(todolists.map(el => el.id === todolistId ? {...el, title: title} : el))
     }
