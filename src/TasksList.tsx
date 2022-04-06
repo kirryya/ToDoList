@@ -30,6 +30,6 @@ export const TasksList = (props: TasksListPropsType) => {
             <div>
                 {tasksComponentsList}
             </div>
-            : <span>Tasks list is empty. Please, change or add task!</span>
+            : <span>Tasks list is empty. Please, add task!</span>
     );
 };
