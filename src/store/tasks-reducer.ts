@@ -36,43 +36,44 @@ export type ActionType = RemoveTaskAT
     | AddTodolistAT
     | RemoveTodolistAT
 
+const initialState: TasksStateType = {}
 
-export const tasksReduser = (tasks: TasksStateType, action: ActionType) => {
+export const tasksReduser = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK":
-            return {...tasks, [action.todolistId]: tasks[action.todolistId].filter(el => el.id !== action.taskID)}
+            return {...state, [action.todolistId]: state[action.todolistId].filter(el => el.id !== action.taskID)}
         case "ADD-TASK":
             return {
-                ...tasks,
-                [action.todolistId]: [{id: v1(), title: action.title, isDone: false}, ...tasks[action.todolistId]]
+                ...state,
+                [action.todolistId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todolistId]]
             }
         case "CHANGE-TASK-STATUS":
             return {
-                ...tasks,
-                [action.todolistId]: tasks[action.todolistId].map(el => el.id === action.taskID ? {
+                ...state,
+                [action.todolistId]: state[action.todolistId].map(el => el.id === action.taskID ? {
                     ...el,
                     isDone: action.isDone
                 } : el)
             }
         case "CHANGE-TASK-TITLE":
             return {
-                ...tasks,
-                [action.todolistId]: tasks[action.todolistId].map(el => el.id === action.taskID ? {
+                ...state,
+                [action.todolistId]: state[action.todolistId].map(el => el.id === action.taskID ? {
                     ...el,
                     title: action.title
                 } : el)
             }
         case 'ADD-TODOLIST':
-            return {...tasks, [action.todolistId]:[]}
+            return {...state, [action.todolistId]:[]}
 
         case 'REMOVE-TODOLIST': {
-            let newState = {...tasks}
+            let newState = {...state}
             delete newState[action.id]
             return newState
         }
 
         default:
-            return tasks
+            return state
     }
 }
 

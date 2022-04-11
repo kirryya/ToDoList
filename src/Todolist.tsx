@@ -37,12 +37,6 @@ export const Todolist = (props: TodoListPropsType) => {
     const changeTaskTitleHandler = (taskID: string, title: string) => props.changeTaskTitle(props.todolistId, taskID, title)
     const changeTodolistTitleHandler = (title: string) => props.changeTodolistTitle(props.todolistId, title)
 
-
-    const buttonName = [
-        "All",
-        "Active",
-        "Completed"
-    ]
     return (
         <div>
             <TodoListHeader title={props.title} removeTodolist={removeTodolistHandler}
@@ -50,7 +44,7 @@ export const Todolist = (props: TodoListPropsType) => {
             <AddItemForm addItem={addItemHandler}/>
             <TasksList tasks={props.tasks} removeTask={removeTaskHandler} changeTaskStatus={changeTaskStatusHandler}
                        changeTaskTitle={changeTaskTitleHandler}/>
-            <ControlButtons buttonName={buttonName} changeFilter={changeFilterHandler} filter={props.filter}/>
+            <ControlButtons changeFilter={changeFilterHandler} filter={props.filter}/>
         </div>
     );
 };

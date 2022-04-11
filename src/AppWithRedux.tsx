@@ -1,12 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
-import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
+import {addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./store/todolist-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./store/tasks-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {Dispatch} from "redux";
+import {AppRootStateType} from "./store/store";
 
 export type FilterValuesType = "all" | "active" | "completed"
+
 export type TodolistsType = {
     id: string
     title: string
@@ -17,67 +22,42 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-function App() {
-    const todolistID1 = v1()
-    const todolistID2 = v1()
+function AppWithRedux() {
 
-
-    const [todolists, setTodolist] = useState<Array<TodolistsType>>([
-        {id: todolistID1, title: "What to learn", filter: "all"},
-        {id: todolistID2, title: "What to buy", filter: "all"}
-    ])
-
-    const [tasks, setTasks] = useState({
-        [todolistID1]: [
-            {id: v1(), title: "HTML", isDone: false},
-            {id: v1(), title: "CSS", isDone: true},
-            {id: v1(), title: "JS/TS", isDone: true},
-            {id: v1(), title: "Rest API", isDone: true},
-        ],
-        [todolistID2]: [
-            {id: v1(), title: "HTML2", isDone: false},
-            {id: v1(), title: "CSS2", isDone: true},
-            {id: v1(), title: "JS/TS2", isDone: true},
-            {id: v1(), title: "Rest API2", isDone: true},
-        ],
-    })
+    const todolists = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const dispatch = useDispatch<Dispatch>();
 
     const removeTask = (todolistId: string, taskID: string) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(el => el.id !== taskID)})
+        dispatch(removeTaskAC(todolistId, taskID))
     }
 
     const addTask = (todolistId: string, title: string) => {
-        const newTask = {id: v1(), title, isDone: false}
-        setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
+        dispatch(addTaskAC(todolistId, title))
     }
 
     const changeTaskStatus = (todolistId: string, taskID: string, isDone: boolean) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(el => el.id === taskID ? {...el, isDone: isDone} : el)})
+        dispatch(changeTaskStatusAC(todolistId, taskID, isDone))
     }
 
     const changeTaskTitle = (todolistId: string, taskID: string, title: string) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(el => el.id === taskID ? {...el, title: title} : el)})
-
+        dispatch(changeTaskTitleAC(todolistId, taskID, title))
     }
 
     const removeTodolist = (todolistId: string) => {
-        setTodolist(todolists.filter(el => el.id !== todolistId))
-        delete tasks[todolistId]
+        dispatch(removeTodolistAC(todolistId))
     }
 
     const addTodolist = (newTodolistTitle: string) => {
-        const newTodolistId = v1()
-        const newTodolist: TodolistsType = {id: newTodolistId, title: newTodolistTitle, filter: "all"}
-        setTodolist([newTodolist, ...todolists])
-        setTasks({...tasks, [newTodolistId]: []})
+        dispatch(addTodolistAC(newTodolistTitle))
     }
 
     const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-        setTodolist(todolists.map(el => el.id === todolistId ? {...el, filter: filter} : el))
+        dispatch(changeTodolistFilterAC(todolistId, filter))
     }
 
     const changeTodolistTitle = (todolistId: string, title: string) => {
-        setTodolist(todolists.map(el => el.id === todolistId ? {...el, title: title} : el))
+        dispatch(changeTodolistTitleAC(todolistId, title))
     }
 
 
@@ -129,4 +109,4 @@ function App() {
         ;
 }
 
-export default App;
+export default AppWithRedux;
