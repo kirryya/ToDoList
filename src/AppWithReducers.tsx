@@ -98,14 +98,8 @@ function AppWithReducers() {
                     <Todolist
                         key={el.id}
                         todolistId={el.id}
-                        tasks={filteredTasks}
-                        removeTask={removeTask}
-                        changeFilter={changeFilter}
                         addItem={addTask}
-                        filter={el.filter}
-                        changeTaskStatus={changeTaskStatus}
                         addTodolist={addTodolist}
-                        changeTaskTitle={changeTaskTitle}
                     />
                 </Paper>
             </Grid>

@@ -1,31 +1,58 @@
 import React from 'react';
 import {Task} from "./Task";
 import {TaskType} from "./Todolist";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../store/store";
+import {TodolistsType} from "../AppWithRedux";
+import {Dispatch} from "redux";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../store/tasks-reducer";
 
 type TasksListPropsType = {
-    tasks: Array<TaskType>
-    removeTask: (taskID: string) => void
-    changeTaskStatus: (taskID: string, isDone: boolean) => void
-    changeTaskTitle: (taskID: string, title: string) => void
+    todolistId: string
 }
 
 export const TasksList = (props: TasksListPropsType) => {
-    const tasksComponentsList = props.tasks.map(task => {
+
+    const todolist = useSelector<AppRootStateType, TodolistsType>(
+        state => state.todolists.filter(t => t.id === props.todolistId)[0]
+    )
+    const tasks = useSelector<AppRootStateType, TaskType[]>(
+        state => state.tasks[props.todolistId]
+    )
+    const dispatch = useDispatch<Dispatch>();
+
+    let tasksForTodolist = tasks
+    if (todolist.filter === "completed") {
+        tasksForTodolist = tasks.filter(task => task.isDone)
+    }
+    if (todolist.filter === "active") {
+        tasksForTodolist = tasks.filter(task => !task.isDone)
+    }
+
+    let tasksComponentsList = tasksForTodolist.map(task => {
 
         const changeTaskTitle = (title: string) => {
-            props.changeTaskTitle(task.id, title)
+            dispatch(changeTaskTitleAC(todolist.id, task.id, title))
+        }
+        const changeTaskStatus = (taskID: string, isDone: boolean) => {
+            dispatch(changeTaskStatusAC(todolist.id, taskID, isDone))
+        }
+        const removeTask = (taskID: string) => {
+            dispatch(removeTaskAC(todolist.id, taskID))
         }
 
         return (
             <Task
                 key={task.id}
                 {...task}
-                removeTask={props.removeTask}
-                changeTaskStatus={props.changeTaskStatus}
+                removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
                 changeTaskTitle={changeTaskTitle}
             />
+
         )
     })
+
     return (tasksComponentsList.length ?
             <div>
                 {tasksComponentsList}

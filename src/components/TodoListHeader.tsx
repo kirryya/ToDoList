@@ -14,7 +14,9 @@ type TodoListHeaderPropsType = {
 
 export const TodoListHeader = (props: TodoListHeaderPropsType) => {
 
-    const todolist = useSelector<AppRootStateType, TodolistsType>(state => state.todolists.filter(t => t.id === props.todolistId)[0])
+    const todolist = useSelector<AppRootStateType, TodolistsType>(
+        state => state.todolists.filter(t => t.id === props.todolistId)[0]
+    )
     const dispatch = useDispatch<Dispatch>();
 
     const removeTodolistHandler = () => {

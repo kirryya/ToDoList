@@ -4,11 +4,11 @@ import {TaskType, Todolist} from "./components/Todolist";
 import {AddItemForm} from "./components/AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {addTodolistAC, changeTodolistFilterAC} from "./store/todolist-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./store/tasks-reducer";
+import {addTodolistAC} from "./store/todolist-reducer";
+import {addTaskAC} from "./store/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
-import {AppRootStateType} from "./store/store";
+import {AppRootStateType, store} from "./store/store";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -24,64 +24,18 @@ export type TasksStateType = {
 
 function AppWithRedux() {
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const todolists = useSelector<AppRootStateType, TodolistsType[]>(state => state.todolists)
     const dispatch = useDispatch<Dispatch>();
-
-    const removeTask = (todolistId: string, taskID: string) => {
-        dispatch(removeTaskAC(todolistId, taskID))
-    }
 
     const addTask = (todolistId: string, title: string) => {
         dispatch(addTaskAC(todolistId, title))
-    }
-
-    const changeTaskStatus = (todolistId: string, taskID: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todolistId, taskID, isDone))
-    }
-
-    const changeTaskTitle = (todolistId: string, taskID: string, title: string) => {
-        dispatch(changeTaskTitleAC(todolistId, taskID, title))
     }
 
     const addTodolist = (newTodolistTitle: string) => {
         dispatch(addTodolistAC(newTodolistTitle))
     }
 
-    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC(todolistId, filter))
-    }
-
-    const todolistComponent = todolists.map((el) => {
-        let filteredTasks = tasks[el.id]
-        if (el.filter === "completed") {
-            filteredTasks = tasks[el.id].filter(task => task.isDone)
-        }
-        if (el.filter === "active") {
-            filteredTasks = tasks[el.id].filter(task => !task.isDone)
-        }
-        return (
-            <Grid item>
-                <Paper style={{padding: '20px'}} elevation={10}>
-                    <Todolist
-                        key={el.id}
-                        todolistId={el.id}
-                        tasks={filteredTasks}
-                        removeTask={removeTask}
-                        changeFilter={changeFilter}
-                        addItem={addTask}
-                        filter={el.filter}
-                        changeTaskStatus={changeTaskStatus}
-                        addTodolist={addTodolist}
-                        changeTaskTitle={changeTaskTitle}
-                    />
-                </Paper>
-            </Grid>
-        )
-    })
-
     return (
-
         <div className="App">
             <ButtonAppBar/>
             <Container fixed>
@@ -89,7 +43,20 @@ function AppWithRedux() {
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={5}>
-                    {todolistComponent}
+                    {todolists.map((el) => {
+                        return (
+                            <Grid item>
+                                <Paper style={{padding: '20px'}} elevation={10}>
+                                    <Todolist
+                                        key={el.id}
+                                        todolistId={el.id}
+                                        addItem={addTask}
+                                        addTodolist={addTodolist}
+                                    />
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
                 </Grid>
             </Container>
         </div>
