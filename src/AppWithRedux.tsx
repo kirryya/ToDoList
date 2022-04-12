@@ -8,7 +8,7 @@ import {addTodolistAC} from "./store/todolist-reducer";
 import {addTaskAC} from "./store/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
-import {AppRootStateType, store} from "./store/store";
+import {AppRootStateType} from "./store/store";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
