@@ -11,7 +11,7 @@ type TasksListPropsType = {
     todolistId: string
 }
 
-export const TasksList = (props: TasksListPropsType) => {
+export const TasksList = React.memo((props: TasksListPropsType) => {
 
     const todolist = useSelector<AppRootStateType, TodolistsType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
@@ -59,4 +59,4 @@ export const TasksList = (props: TasksListPropsType) => {
             </div>
             : <span>Tasks list is empty. Please, add task!</span>
     );
-};
+});

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {TodoListHeader} from "./TodoListHeader";
 import {ControlButtons} from "./ControlButtons";
 import {AddItemForm} from "./AddItemForm";
@@ -14,11 +14,13 @@ type TodoListPropsType = {
 export type TaskType = {
     id: string
     title: string
-    isDone: boolean}
+    isDone: boolean
+}
 
-export const Todolist = (props: TodoListPropsType) => {
+export const Todolist = React.memo((props: TodoListPropsType) => {
 
-    const addItemHandler = (title: string) => props.addItem(props.todolistId, title)
+    const addItemHandler = useCallback((title: string) => props.addItem(props.todolistId, title),
+        [props.addItem, props.todolistId])
 
     return (
         <div>
@@ -28,5 +30,5 @@ export const Todolist = (props: TodoListPropsType) => {
             <ControlButtons todolistId={props.todolistId}/>
         </div>
     );
-};
+});
 

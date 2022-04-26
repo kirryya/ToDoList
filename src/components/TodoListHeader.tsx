@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
@@ -12,19 +12,20 @@ type TodoListHeaderPropsType = {
     todolistId: string
 }
 
-export const TodoListHeader = (props: TodoListHeaderPropsType) => {
+export const TodoListHeader = React.memo((props: TodoListHeaderPropsType) => {
 
     const todolist = useSelector<AppRootStateType, TodolistsType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
     )
     const dispatch = useDispatch<Dispatch>();
 
-    const removeTodolistHandler = () => {
+    const removeTodolistHandler = useCallback(() => {
         dispatch(removeTodolistAC(todolist.id))
-    }
-    const changeTodolistTitle = (title: string) => {
+    }, [dispatch])
+
+    const changeTodolistTitle = useCallback((title: string) => {
         dispatch(changeTodolistTitleAC(todolist.id, title))
-    }
+    }, [dispatch])
 
     return (
         <h3>
@@ -34,5 +35,5 @@ export const TodoListHeader = (props: TodoListHeaderPropsType) => {
             </IconButton>
         </h3>
     );
-};
+});
 

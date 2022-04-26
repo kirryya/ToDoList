@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button, TextField} from "@material-ui/core";
 
 
@@ -6,7 +6,8 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem}) => {
+    console.log("AddItemForm")
 
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
@@ -52,5 +53,5 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
             >+</Button>
         </div>
     );
-};
+});
 

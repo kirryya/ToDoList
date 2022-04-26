@@ -6,7 +6,7 @@ type EditableSpaPropsType = {
     changeTitle: (title: string) => void
 }
 
-export const EditableSpan = (props: EditableSpaPropsType) => {
+export const EditableSpan = React.memo((props: EditableSpaPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
     const [title, setTitle] = useState<string>(props.title)
     const onEditMode = () => {
@@ -38,5 +38,5 @@ export const EditableSpan = (props: EditableSpaPropsType) => {
                        autoFocus/>
             : <span onDoubleClick={onEditMode}>{props.title}</span>
     );
-};
+});
 
