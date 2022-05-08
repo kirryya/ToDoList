@@ -1,17 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Task} from "./Task";
 import {TaskType} from "./Todolist";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../store/store";
 import {TodolistsType} from "../AppWithRedux";
 import {Dispatch} from "redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../store/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, fetchTasksTC, removeTaskAC} from "../store/tasks-reducer";
 
 type TasksListPropsType = {
     todolistId: string
 }
 
 export const TasksList = React.memo((props: TasksListPropsType) => {
+
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(fetchTasksTC)
+    })
 
     const todolist = useSelector<AppRootStateType, TodolistsType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
