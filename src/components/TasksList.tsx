@@ -29,7 +29,7 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
         tasksForTodolist = tasks.filter(task => !task.isDone)
     }
 
-    let tasksComponentsList =tasksForTodolist?.map(task => {
+    let tasksComponentsList =tasksForTodolist.map(task => {
 
         const changeTaskTitle = (title: string) => {
             dispatch(changeTaskTitleAC(todolist.id, task.id, title))
@@ -53,7 +53,7 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
         )
     })
 
-    return (tasksComponentsList?.length ?
+    return (tasksComponentsList.length ?
             <div>
                 {tasksComponentsList}
             </div>

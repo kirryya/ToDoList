@@ -4,12 +4,12 @@ import {TaskType, Todolist} from "./components/Todolist";
 import {AddItemForm} from "./components/AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {addTodolistAC, setTodosAC} from "./store/todolist-reducer";
+import {addTodolistAC, fetchTodosThunk} from "./store/todolist-reducer";
 import {addTaskAC} from "./store/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store/store";
-import {todolistAPI, TodolistType} from "./api/todolist-api";
+import {TodolistType} from "./api/todolist-api";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -24,10 +24,8 @@ export type TasksStateType = {
 function AppWithRedux() {
 
     useEffect(() => {
-        let promise = todolistAPI.getTodolist()
-        promise.then((res) => {
-            dispatch(setTodosAC(res.data))
-        })
+        // @ts-ignore
+        dispatch(fetchTodosThunk)
     }, [])
 
     const todolists = useSelector<AppRootStateType, TodolistsType[]>(state => state.todolists)

@@ -1,18 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {todolistAPI} from './todolist-api';
 
-export const GetTodolists = () => {
-    const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        todolistAPI.getTodolist()
-            .then((res) => {
-                setState(res.data);
-            })
-    }, [])
-
-    return <div> {JSON.stringify(state)}</div>
-}
-
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
