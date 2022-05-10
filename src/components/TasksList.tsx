@@ -13,7 +13,7 @@ type TasksListPropsType = {
 export const TasksList = React.memo((props: TasksListPropsType) => {
     useEffect(() => {
         dispatch(getTasksTC(props.todolistId))
-    })
+    }, [])
 
     const todolist = useSelector<AppRootStateType, TodolistsType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
