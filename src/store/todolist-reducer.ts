@@ -83,7 +83,7 @@ export const setTodosAC = (todos: Array<TodolistType>): SetTodosAT => {
 }
 
 //Thunk
-export const fetchTodosThunk = (dispatch: Dispatch): void => {
+export const getTodosTC = () => (dispatch: Dispatch): void => {
     // 1. ajax request
     // 2. dispatch action (thunk)
     let promise = todolistAPI.getTodolist()

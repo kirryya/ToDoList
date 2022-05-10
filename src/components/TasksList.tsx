@@ -1,21 +1,18 @@
 import React, {useEffect} from 'react';
 import {Task} from "./Task";
 import {TaskType} from "./Todolist";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../store/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "../store/store";
 import {TodolistsType} from "../AppWithRedux";
-import {Dispatch} from "redux";
-import {changeTaskStatusAC, changeTaskTitleAC, fetchTasksTC, removeTaskAC} from "../store/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskTC, getTasksTC} from "../store/tasks-reducer";
 
 type TasksListPropsType = {
     todolistId: string
 }
 
 export const TasksList = React.memo((props: TasksListPropsType) => {
-
     useEffect(() => {
-        // @ts-ignore
-        dispatch(fetchTasksTC)
+        dispatch(getTasksTC(props.todolistId))
     })
 
     const todolist = useSelector<AppRootStateType, TodolistsType>(
@@ -24,9 +21,11 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
     const tasks = useSelector<AppRootStateType, TaskType[]>(
         state => state.tasks[props.todolistId]
     )
-    const dispatch = useDispatch<Dispatch>();
+
+    const dispatch = useAppDispatch();
 
     let tasksForTodolist = tasks
+
     if (todolist.filter === "completed") {
         tasksForTodolist = tasks.filter(task => task.isDone)
     }
@@ -34,7 +33,7 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
         tasksForTodolist = tasks.filter(task => !task.isDone)
     }
 
-    let tasksComponentsList =tasksForTodolist.map(task => {
+    let tasksComponentsList = tasksForTodolist.map(task => {
 
         const changeTaskTitle = (title: string) => {
             dispatch(changeTaskTitleAC(todolist.id, task.id, title))
@@ -43,13 +42,13 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
             dispatch(changeTaskStatusAC(todolist.id, taskID, isDone))
         }
         const removeTask = (taskID: string) => {
-            dispatch(removeTaskAC(todolist.id, taskID))
+            dispatch(deleteTaskTC(todolist.id, taskID))
         }
 
         return (
             <Task
                 key={task.id}
-                {...task}
+                task={task}
                 removeTask={removeTask}
                 changeTaskStatus={changeTaskStatus}
                 changeTaskTitle={changeTaskTitle}
