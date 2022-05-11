@@ -3,26 +3,11 @@ import {TodoListHeader} from "./TodoListHeader";
 import {ControlButtons} from "./ControlButtons";
 import {AddItemForm} from "./AddItemForm";
 import {TasksList} from "./TasksList";
-import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
-
 
 type TodoListPropsType = {
     addItem: (todolistId: string, title: string) => void
     todolistId: string
     addTodolist: (newTodolistTitle: string) => void
-}
-
-export type TaskType = {
-    todolistId:string
-    id: string
-    title: string
-    isDone: boolean
-    description: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDates: string
-    deadlines: string
-    order: number
 }
 
 export const Todolist = React.memo((props: TodoListPropsType) => {

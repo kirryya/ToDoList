@@ -1,8 +1,7 @@
 import {TasksStateType} from "../AppWithRedux";
 import {AddTodolistAT, RemoveTodolistAT, SetTodosAT} from "./todolist-reducer";
-import {TaskType} from "../components/Todolist";
 import {Dispatch} from "redux";
-import {taskAPI} from "../api/task-api";
+import {taskAPI, TaskType} from "../api/task-api";
 
 export type RemoveTaskAT = {
     type: "REMOVE-TASK"

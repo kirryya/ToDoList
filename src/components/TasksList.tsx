@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {Task} from "./Task";
-import {TaskType} from "./Todolist";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
 import {TodolistsType} from "../AppWithRedux";
 import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskTC, getTasksTC} from "../store/tasks-reducer";
+import {TaskType} from "../api/task-api";
 
 type TasksListPropsType = {
     todolistId: string
