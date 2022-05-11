@@ -1,4 +1,3 @@
-import {FilterValuesType, TodolistsType} from "../AppWithRedux";
 import {v1} from "uuid";
 import {todolistAPI, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
@@ -30,15 +29,21 @@ export type SetTodosAT = {
     todos: Array<TodolistType>
 }
 
+export type FilterValuesType = "all" | "active" | "completed"
+
+export type TodolistDomainType = TodolistType & {
+    filter: FilterValuesType
+}
+
 export type ActionType = RemoveTodolistAT
     | AddTodolistAT
     | ChangeTodolistFilterAT
     | ChangeTodolistTitleAT
     | SetTodosAT
 
-const initialState: Array<TodolistsType> = []
+const initialState: Array<TodolistDomainType> = []
 
-export const todolistsReduser = (state: TodolistsType[] = initialState, action: ActionType): Array<TodolistsType> => {
+export const todolistsReduser = (state: TodolistDomainType[] = initialState, action: ActionType): Array<TodolistDomainType> => {
     switch (action.type) {
         case "SET-TODOS":
             return action.todos.map((tl) => {

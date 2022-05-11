@@ -1,11 +1,9 @@
 import React from 'react';
-import {FilterValuesType} from "../AppWithRedux";
 import {Button} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../store/store";
-import {TodolistsType} from "../AppWithRedux";
 import {Dispatch} from "redux";
-import {changeTodolistFilterAC} from "../store/todolist-reducer";
+import {changeTodolistFilterAC, FilterValuesType, TodolistDomainType} from "../store/todolist-reducer";
 
 export type ControlButtonsPropsType = {
     todolistId: string
@@ -13,7 +11,7 @@ export type ControlButtonsPropsType = {
 
 export const ControlButtons = (props: ControlButtonsPropsType) => {
 
-    const todolist = useSelector<AppRootStateType, TodolistsType>(
+    const todolist = useSelector<AppRootStateType, TodolistDomainType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
     )
     const dispatch = useDispatch<Dispatch>();

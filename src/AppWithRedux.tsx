@@ -4,18 +4,11 @@ import {Todolist} from "./components/Todolist";
 import {AddItemForm} from "./components/AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {addTodolistAC, getTodosTC} from "./store/todolist-reducer";
+import {addTodolistAC, getTodosTC, TodolistDomainType} from "./store/todolist-reducer";
 import {addTaskTC} from "./store/tasks-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./store/store";
-import {TodolistType} from "./api/todolist-api";
 import {TaskType} from "./api/task-api";
-
-export type FilterValuesType = "all" | "active" | "completed"
-
-export type TodolistsType = TodolistType & {
-    filter: FilterValuesType
-}
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -27,7 +20,7 @@ function AppWithRedux() {
         dispatch(getTodosTC())
     }, [])
 
-    const todolists = useSelector<AppRootStateType, TodolistsType[]>(state => state.todolists)
+    const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
 
     const dispatch = useAppDispatch();
 

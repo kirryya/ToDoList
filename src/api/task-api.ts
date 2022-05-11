@@ -10,7 +10,7 @@ const instance = axios.create({
 
 export const taskAPI = {
     updateTask(todolistId: string, taskId: string, title: string) {
-        return instance.put(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
+        return instance.put<UpdateTaskModelType>(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType<{}>>(`todo-lists/${todolistId}/tasks/${taskId}`)
@@ -58,7 +58,6 @@ export type TaskType = {
     todolistId: string
     id: string
     title: string
-    isDone: boolean
     description: string
     status: TaskStatuses
     priority: TaskPriorities

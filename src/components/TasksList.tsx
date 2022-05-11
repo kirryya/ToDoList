@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {Task} from "./Task";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
-import {TodolistsType} from "../AppWithRedux";
 import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskTC, getTasksTC} from "../store/tasks-reducer";
-import {TaskType} from "../api/task-api";
+import {TaskStatuses, TaskType} from "../api/task-api";
+import {TodolistDomainType} from "../store/todolist-reducer";
 
 type TasksListPropsType = {
     todolistId: string
@@ -15,7 +15,7 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
         dispatch(getTasksTC(props.todolistId))
     }, [])
 
-    const todolist = useSelector<AppRootStateType, TodolistsType>(
+    const todolist = useSelector<AppRootStateType, TodolistDomainType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
     )
     const tasks = useSelector<AppRootStateType, TaskType[]>(
@@ -27,10 +27,10 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
     let tasksForTodolist = tasks
 
     if (todolist.filter === "completed") {
-        tasksForTodolist = tasks.filter(task => task.isDone)
+        tasksForTodolist = tasks.filter(task => task.status === TaskStatuses.Completed)
     }
     if (todolist.filter === "active") {
-        tasksForTodolist = tasks.filter(task => !task.isDone)
+        tasksForTodolist = tasks.filter(task => task.status === TaskStatuses.New)
     }
 
     let tasksComponentsList = tasksForTodolist.map(task => {
@@ -38,8 +38,8 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
         const changeTaskTitle = (title: string) => {
             dispatch(changeTaskTitleAC(todolist.id, task.id, title))
         }
-        const changeTaskStatus = (taskID: string, isDone: boolean) => {
-            dispatch(changeTaskStatusAC(todolist.id, taskID, isDone))
+        const changeTaskStatus = (taskID: string, status: TaskStatuses) => {
+            dispatch(changeTaskStatusAC(todolist.id, taskID, status))
         }
         const removeTask = (taskID: string) => {
             dispatch(deleteTaskTC(todolist.id, taskID))

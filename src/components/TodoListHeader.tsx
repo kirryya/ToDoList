@@ -5,8 +5,7 @@ import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../store/store";
 import {Dispatch} from "redux";
-import {TodolistsType} from "../AppWithRedux";
-import {changeTodolistTitleAC, removeTodolistAC} from "../store/todolist-reducer";
+import {changeTodolistTitleAC, removeTodolistAC, TodolistDomainType} from "../store/todolist-reducer";
 
 type TodoListHeaderPropsType = {
     todolistId: string
@@ -14,7 +13,7 @@ type TodoListHeaderPropsType = {
 
 export const TodoListHeader = React.memo((props: TodoListHeaderPropsType) => {
 
-    const todolist = useSelector<AppRootStateType, TodolistsType>(
+    const todolist = useSelector<AppRootStateType, TodolistDomainType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
     )
     const dispatch = useDispatch<Dispatch>();
