@@ -14,17 +14,17 @@ type TaskPropsType = {
 export const Task = React.memo((props: TaskPropsType) => {
 
     const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) =>
-        props.changeTaskStatus(props.task.id, e.currentTarget.checked), [props.changeTaskStatus, props.task.id])
+        props.changeTaskStatus(props.task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New),[props.changeTaskStatus, props.task.id])
     const removeTask = useCallback(() =>
         props.removeTask(props.task.id), [props.removeTask, props.task.id])
     const changeTaskTitle = useCallback((title: string) =>
         props.changeTaskTitle(title), [props.changeTaskTitle])
 
     return (
-        <div className={props.task.status ? "completed-task" : ""}>
+        <div className={props.task.status === TaskStatuses.Completed ? "completed-task" : ""}>
             <input type="checkbox"
                    onChange={changeTaskStatus}
-                   checked={props.task.status}/>
+                   checked={props.task.status === TaskStatuses.Completed}/>
             <EditableSpan title={props.task.title} changeTitle={changeTaskTitle}/>
             <IconButton
                 aria-label="delete"

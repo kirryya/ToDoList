@@ -62,7 +62,7 @@ export const tasksReduser = (state: TasksStateType = initialState, action: Actio
                 ...state,
                 [action.todolistId]: state[action.todolistId].map(el => el.id === action.taskID ? {
                     ...el,
-                    isDone: action.status
+                    status: action.status
                 } : el)
             }
         case "CHANGE-TASK-TITLE":
