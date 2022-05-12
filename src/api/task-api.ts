@@ -55,7 +55,7 @@ export type UpdateTaskModelType = {
 }
 
 export type TaskType = {
-    todolistId: string
+    todoListId: string
     id: string
     title: string
     description: string

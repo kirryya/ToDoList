@@ -49,9 +49,10 @@ export const todolistsReduser = (state: TodolistDomainType[] = initialState, act
             return action.todos.map((tl) => {
                 return {...tl, filter: "all"}
             })
-        case "REMOVE-TODOLIST":
+        case "REMOVE-TODOLIST": {
             return state.filter(t => t.id !== action.id)
-        case "ADD-TODOLIST":
+        }
+        case "ADD-TODOLIST": {
             return ([{
                 id: action.todolistId,
                 title: action.title,
@@ -59,10 +60,13 @@ export const todolistsReduser = (state: TodolistDomainType[] = initialState, act
                 order: 0,
                 filter: "all"
             }, ...state])
-        case "CHANGE-TODOLIST-FILTER":
+        }
+        case "CHANGE-TODOLIST-FILTER": {
             return state.map(t => t.id === action.id ? {...t, filter: action.filter} : t)
-        case "CHANGE-TODOLIST-TITLE":
+        }
+        case "CHANGE-TODOLIST-TITLE": {
             return state.map(t => t.id === action.id ? {...t, title: action.title} : t)
+        }
         default:
             return state
     }
@@ -91,8 +95,8 @@ export const setTodosAC = (todos: Array<TodolistType>): SetTodosAT => {
 export const getTodosTC = () => (dispatch: Dispatch): void => {
     // 1. ajax request
     // 2. dispatch action (thunk)
-    let promise = todolistAPI.getTodolist()
-    promise.then((res) => {
+    todolistAPI.getTodolist()
+    .then((res) => {
         dispatch(setTodosAC(res.data))
     })
 

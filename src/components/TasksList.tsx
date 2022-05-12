@@ -11,6 +11,7 @@ type TasksListPropsType = {
 }
 
 export const TasksList = React.memo((props: TasksListPropsType) => {
+
     useEffect(() => {
         dispatch(getTasksTC(props.todolistId))
     }, [])

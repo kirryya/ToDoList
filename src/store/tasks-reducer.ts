@@ -45,17 +45,10 @@ const initialState: TasksStateType = {}
 export const tasksReduser = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
-            const stateCopy = {...state}
-            const tasks = stateCopy[action.todolistId];
-            stateCopy[action.todolistId] = tasks.filter(t => t.id !== action.taskID);
-            return stateCopy
+            return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskID)}
         }
         case "ADD-TASK": {
-            const stateCopy = {...state}
-            const task = action.task
-            const tasks = stateCopy[task.todolistId]
-            stateCopy[task.todolistId] = [task, ...tasks]
-            return stateCopy
+            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         }
         case "CHANGE-TASK-STATUS":
             return {
@@ -89,9 +82,7 @@ export const tasksReduser = (state: TasksStateType = initialState, action: Actio
             return stateCopy
         }
         case "SET-TASKS": {
-            const stateCopy = {...state}
-            stateCopy[action.todolistId] = action.tasks
-            return stateCopy
+            return  {...state, [action.todolistId] : action.tasks }
         }
         default:
             return state

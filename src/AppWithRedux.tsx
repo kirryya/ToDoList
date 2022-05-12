@@ -26,7 +26,7 @@ function AppWithRedux() {
 
     const addTask = useCallback((todolistId: string, title: string) => {
         dispatch(addTaskTC(todolistId, title))
-    }, [dispatch])
+    }, [])
 
     const addTodolist = useCallback((newTodolistTitle: string) => {
         dispatch(addTodolistAC(newTodolistTitle))
