@@ -2,10 +2,9 @@ import React, {useCallback} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../store/store";
-import {Dispatch} from "redux";
-import {changeTodolistTitleAC, removeTodolistAC, TodolistDomainType} from "../store/todolist-reducer";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "../store/store";
+import {changeTodolistTitleAC, deleteTodoTC, TodolistDomainType} from "../store/todolist-reducer";
 
 type TodoListHeaderPropsType = {
     todolistId: string
@@ -16,10 +15,10 @@ export const TodoListHeader = React.memo((props: TodoListHeaderPropsType) => {
     const todolist = useSelector<AppRootStateType, TodolistDomainType>(
         state => state.todolists.filter(t => t.id === props.todolistId)[0]
     )
-    const dispatch = useDispatch<Dispatch>();
+    const dispatch = useAppDispatch();
 
     const removeTodolistHandler = useCallback(() => {
-        dispatch(removeTodolistAC(todolist.id))
+        dispatch(deleteTodoTC(todolist.id))
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((title: string) => {
