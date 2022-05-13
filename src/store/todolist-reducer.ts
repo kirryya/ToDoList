@@ -82,7 +82,6 @@ export const setTodosAC = (todos: TodolistType[]): SetTodosAT => {
         todos
     }
 }
-
 //Thunk
 export const getTodosTC = () => (dispatch: Dispatch): void => {
     // 1. ajax request
@@ -92,6 +91,7 @@ export const getTodosTC = () => (dispatch: Dispatch): void => {
             dispatch(setTodosAC(res.data))
         })
 }
+
 export const deleteTodoTC = (todolistId: string) => (dispatch: Dispatch): void => {
     todolistAPI.deleteTodolist(todolistId)
         .then((res) => {
@@ -105,5 +105,12 @@ export const addTodoTC = (title: string) => (dispatch: Dispatch): void => {
     todolistAPI.createTodolist(title)
         .then((res) => {
             dispatch(addTodolistAC(res.data.data.item))
+        })
+}
+
+export const changeTodoTitleTC = (todolistId: string, title: string) => (dispatch: Dispatch): void => {
+    todolistAPI.updateTodolist(todolistId, title)
+        .then((res) => {
+            dispatch(changeTodolistTitleAC(todolistId, title))
         })
 }

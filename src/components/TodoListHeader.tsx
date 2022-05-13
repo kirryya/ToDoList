@@ -4,7 +4,7 @@ import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
-import {changeTodolistTitleAC, deleteTodoTC, TodolistDomainType} from "../store/todolist-reducer";
+import {changeTodoTitleTC, deleteTodoTC, TodolistDomainType} from "../store/todolist-reducer";
 
 type TodoListHeaderPropsType = {
     todolistId: string
@@ -22,7 +22,7 @@ export const TodoListHeader = React.memo((props: TodoListHeaderPropsType) => {
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((title: string) => {
-        dispatch(changeTodolistTitleAC(todolist.id, title))
+        dispatch(changeTodoTitleTC(todolist.id, title))
     }, [dispatch])
 
     return (

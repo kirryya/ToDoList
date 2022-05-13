@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Task} from "./Task";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskTC, getTasksTC} from "../store/tasks-reducer";
+import {deleteTaskTC, getTasksTC, updateTaskTC} from "../store/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/task-api";
 import {TodolistDomainType} from "../store/todolist-reducer";
 
@@ -37,10 +37,10 @@ export const TasksList = React.memo((props: TasksListPropsType) => {
     let tasksComponentsList = tasksForTodolist.map(task => {
 
         const changeTaskTitle = (title: string) => {
-            dispatch(changeTaskTitleAC(todolist.id, task.id, title))
+            dispatch(updateTaskTC(todolist.id, task.id, {title}))
         }
         const changeTaskStatus = (taskID: string, status: TaskStatuses) => {
-            dispatch(changeTaskStatusAC(todolist.id, taskID, status))
+            dispatch(updateTaskTC(todolist.id, taskID, {status}))
         }
         const removeTask = (taskID: string) => {
             dispatch(deleteTaskTC(todolist.id, taskID))
