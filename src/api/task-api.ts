@@ -8,6 +8,7 @@ const instance = axios.create({
     }
 })
 
+//api
 export const taskAPI = {
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
@@ -23,20 +24,19 @@ export const taskAPI = {
     }
 }
 
+// types
 export type ResponseType<D> = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>
     data: D
 }
-
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3
 }
-
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -44,7 +44,6 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
-
 export type UpdateTaskModelType = {
     title: string
     description: string
@@ -53,7 +52,6 @@ export type UpdateTaskModelType = {
     startDate: string
     deadline: string
 }
-
 export type TaskType = {
     todoListId: string
     id: string
@@ -65,7 +63,6 @@ export type TaskType = {
     deadline: string
     order: number
 }
-
 type GetTasksResponse = {
     error: string | null
     totalCount: number

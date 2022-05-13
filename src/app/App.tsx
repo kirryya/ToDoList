@@ -1,20 +1,20 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {Todolist} from "./components/Todolist";
-import {AddItemForm} from "./components/AddItemForm";
-import ButtonAppBar from "./components/ButtonAppBar";
+import {Todolist} from "../components/Todolist";
+import {AddItemForm} from "../components/AddItemForm";
+import ButtonAppBar from "../components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {addTodoTC, getTodosTC, TodolistDomainType} from "./store/todolist-reducer";
-import {addTaskTC} from "./store/tasks-reducer";
+import {addTodoTC, getTodosTC, TodolistDomainType} from "../store/todolist-reducer";
+import {addTaskTC} from "../store/tasks-reducer";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "./store/store";
-import {TaskType} from "./api/task-api";
+import {AppRootStateType, useAppDispatch} from "../store/store";
+import {TaskType} from "../api/task-api";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-function AppWithRedux() {
+function App() {
 
     useEffect(() => {
         dispatch(getTodosTC())
@@ -61,4 +61,4 @@ function AppWithRedux() {
         ;
 }
 
-export default AppWithRedux;
+export default App;
