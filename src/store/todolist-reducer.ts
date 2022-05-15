@@ -1,6 +1,6 @@
 import {todolistAPI, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
-import {RequestStatusType, SetErrorAT, setStatusAC, SetStatusAT} from "../app/app-reducer";
+import {RequestStatusType, setErrorAC, SetErrorAT, setStatusAC, SetStatusAT} from "../app/app-reducer";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -16,6 +16,8 @@ export const todolistsReduser = (state: TodolistDomainType[] = initialState, act
             return state.map(t => t.id === action.id ? {...t, filter: action.filter} : t)
         case "CHANGE-TODOLIST-TITLE":
             return state.map(t => t.id === action.id ? {...t, title: action.title} : t)
+        case "CHANGE-ENTITY-STATUS":
+            return state.map(t => t.id === action.id ? {...t, entityStatus: action.entityStatus} : t )
         default:
             return state
     }
@@ -30,7 +32,10 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) =>
     ({type: "CHANGE-TODOLIST-FILTER", id, filter} as const)
 export const changeTodolistTitleAC = (id: string, title: string) =>
     ({type: "CHANGE-TODOLIST-TITLE", id, title} as const)
-export const setTodosAC = (todos: TodolistType[]) => ({type: 'SET-TODOS', todos}) as const
+export const setTodosAC = (todos: TodolistType[]) =>
+    ({type: 'SET-TODOS', todos} as const)
+export const changeTodolistEntityStatusAC = (id:string, entityStatus: RequestStatusType) =>
+    ({type: 'CHANGE-ENTITY-STATUS',id, entityStatus} as const)
 
 // thunks
 export const getTodosTC = () => (dispatch: ThunkActionsType): void => {
@@ -57,8 +62,21 @@ export const addTodoTC = (title: string) => (dispatch: ThunkActionsType): void =
     dispatch(setStatusAC("loading"))
     todolistAPI.createTodolist(title)
         .then((res) => {
-            dispatch(addTodolistAC(res.data.data.item))
-            dispatch(setStatusAC("succeeded"))
+            if (res.data.resultCode === 0) {
+                dispatch(addTodolistAC(res.data.data.item))
+                dispatch(setStatusAC("succeeded"))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC('Some error occurred'))
+                }
+                dispatch(setStatusAC('failed'))
+            }
+        })
+        .catch((error) => {
+            dispatch(setErrorAC(error.message))
+            dispatch(setStatusAC("failed"))
         })
 }
 export const changeTodoTitleTC = (todolistId: string, title: string) => (dispatch: ThunkActionsType): void => {
@@ -85,5 +103,6 @@ type ActionType =
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof changeTodolistTitleAC>
     | SetTodolistAT
+    | ReturnType<typeof changeTodolistEntityStatusAC>
 
 type ThunkActionsType = Dispatch<ActionType | SetStatusAT | SetErrorAT>

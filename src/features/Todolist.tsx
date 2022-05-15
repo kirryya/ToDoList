@@ -3,11 +3,13 @@ import {TodoListHeader} from "./TodoListHeader";
 import {AddItemForm} from "../components/AddItemForm";
 import {TasksList} from "./TasksList";
 import {ControlButtons} from "./ControlButtons";
+import {RequestStatusType} from "../app/app-reducer";
 
 type TodoListPropsType = {
     addItem: (todolistId: string, title: string) => void
     todolistId: string
     addTodolist: (newTodolistTitle: string) => void
+    entityStatus: RequestStatusType
 }
 
 export const Todolist = React.memo((props: TodoListPropsType) => {
@@ -17,7 +19,7 @@ export const Todolist = React.memo((props: TodoListPropsType) => {
 
     return (
         <div>
-            <TodoListHeader todolistId={props.todolistId}/>
+            <TodoListHeader todolistId={props.todolistId} entityStatus={props.entityStatus}/>
             <AddItemForm addItem={addItemHandler}/>
             <TasksList todolistId={props.todolistId}/>
             <ControlButtons todolistId={props.todolistId}/>
