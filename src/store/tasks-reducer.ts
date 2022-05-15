@@ -1,9 +1,9 @@
-
 import {AddTodolistAT, RemoveTodolistAT, SetTodolistAT} from "./todolist-reducer";
 import {Dispatch} from "redux";
 import {taskAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "../api/task-api";
 import {AppRootStateType} from "../app/store";
 import {TasksStateType} from "../features/TodolistsList";
+import {setErrorAC, SetErrorAT, setStatusAC, SetStatusAT} from "../app/app-reducer";
 
 const initialState: TasksStateType = {}
 
@@ -52,9 +52,11 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string) =>
 
 // thunks
 export const getTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setStatusAC("loading"))
     taskAPI.getTasks(todolistId)
         .then((res) => {
             dispatch(setTasksAC(res.data.items, todolistId))
+            dispatch(setStatusAC("succeeded"))
         })
 }
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<ActionType>) => {
@@ -62,13 +64,38 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: D
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTaskAC(todolistId, taskId))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC("Some error occurred"))
+                }
             }
+        })
+        .catch((error) => {
+            dispatch(setErrorAC(error.message))
+            dispatch(setStatusAC("failed"))
         })
 }
 export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setStatusAC("loading"))
     taskAPI.createTask(todolistId, title)
         .then((res) => {
-            dispatch(addTaskAC(res.data.data.item))
+            if (res.data.resultCode === 0) {
+                dispatch(addTaskAC(res.data.data.item))
+                dispatch(setStatusAC("succeeded"))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC("Some error occurred"))
+                }
+                dispatch(setStatusAC("failed"))
+            }
+        })
+        .catch((error) => {
+            dispatch(setErrorAC(error.message))
+            dispatch(setStatusAC("failed"))
         })
 }
 export const updateTaskTC = (todolistId: string, taskID: string, domainModel: UpdateDomainTaskModelType) =>
@@ -113,6 +140,8 @@ type ActionType =
     | RemoveTodolistAT
     | SetTodolistAT
     | ReturnType<typeof setTasksAC>
+    | SetErrorAT
+    | SetStatusAT
 
 
 
