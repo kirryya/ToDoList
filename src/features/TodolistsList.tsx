@@ -32,7 +32,7 @@ export const TodolistsList = () => {
     return (
         <>
             <Grid container style={{padding: '22px'}}>
-                <AddItemForm addItem={addTodolist}/>
+                <AddItemForm addItem={addTodolist} />
             </Grid>
             <Grid container spacing={5}>
                 {todolists.map((el) => {
@@ -42,7 +42,6 @@ export const TodolistsList = () => {
                                 <Todolist
                                     key={el.id}
                                     todolistId={el.id}
-                                    entityStatus={el.entityStatus}
                                     addItem={addTask}
                                     addTodolist={addTodolist}
                                 />

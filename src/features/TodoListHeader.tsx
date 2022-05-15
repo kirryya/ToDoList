@@ -10,11 +10,9 @@ import {
     deleteTodoTC,
     TodolistDomainType
 } from "../store/todolist-reducer";
-import {RequestStatusType} from "../app/app-reducer";
 
 type TodoListHeaderPropsType = {
     todolistId: string
-    entityStatus: RequestStatusType
 }
 
 export const TodoListHeader = React.memo((props: TodoListHeaderPropsType) => {
@@ -36,7 +34,8 @@ export const TodoListHeader = React.memo((props: TodoListHeaderPropsType) => {
     return (
         <h3>
             <EditableSpan title={todolist.title} changeTitle={changeTodolistTitle}/>
-            <IconButton aria-label="delete" onClick={removeTodolistHandler} disabled={props.entityStatus === "loading"}>
+            <IconButton aria-label="delete" onClick={removeTodolistHandler}
+                        disabled={todolist.entityStatus === "loading"}>
                 <Delete/>
             </IconButton>
         </h3>
