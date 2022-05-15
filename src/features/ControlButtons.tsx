@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../store/store";
+import {AppRootStateType} from "../app/store";
 import {Dispatch} from "redux";
 import {changeTodolistFilterAC, FilterValuesType, TodolistDomainType} from "../store/todolist-reducer";
 

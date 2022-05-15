@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "../components/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../store/store";
+import {AppRootStateType, useAppDispatch} from "../app/store";
 import {changeTodoTitleTC, deleteTodoTC, TodolistDomainType} from "../store/todolist-reducer";
 
 type TodoListHeaderPropsType = {

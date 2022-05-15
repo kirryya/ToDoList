@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Task} from "./Task";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../store/store";
+import {AppRootStateType, useAppDispatch} from "../app/store";
 import {deleteTaskTC, getTasksTC, updateTaskTC} from "../store/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/task-api";
 import {TodolistDomainType} from "../store/todolist-reducer";

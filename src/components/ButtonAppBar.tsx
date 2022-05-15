@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {AppBar, Box, Button, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 
@@ -24,6 +25,7 @@ export default function ButtonAppBar() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                <LinearProgress />
             </AppBar>
         </Box>
     );

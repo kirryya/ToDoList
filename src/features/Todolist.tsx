@@ -1,8 +1,8 @@
 import React, {useCallback} from 'react';
 import {TodoListHeader} from "./TodoListHeader";
-import {ControlButtons} from "./ControlButtons";
-import {AddItemForm} from "./AddItemForm";
+import {AddItemForm} from "../components/AddItemForm";
 import {TasksList} from "./TasksList";
+import {ControlButtons} from "./ControlButtons";
 
 type TodoListPropsType = {
     addItem: (todolistId: string, title: string) => void
