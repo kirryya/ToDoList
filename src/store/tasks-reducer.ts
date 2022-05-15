@@ -51,7 +51,7 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string) =>
     ({type: "SET-TASKS", tasks, todolistId} as const)
 
 // thunks
-export const getTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionType>) => {
+export const getTasksTC = (todolistId: string) => (dispatch: ThunkActionType) => {
     dispatch(setStatusAC("loading"))
     taskAPI.getTasks(todolistId)
         .then((res) => {
@@ -59,17 +59,20 @@ export const getTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionType
             dispatch(setStatusAC("succeeded"))
         })
 }
-export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<ActionType>) => {
+export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: ThunkActionType) => {
+    dispatch(setStatusAC("loading"))
     taskAPI.deleteTask(todolistId, taskId)
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTaskAC(todolistId, taskId))
+                dispatch(setStatusAC("succeeded"))
             } else {
                 if (res.data.messages.length) {
                     dispatch(setErrorAC(res.data.messages[0]))
                 } else {
                     dispatch(setErrorAC("Some error occurred"))
                 }
+                dispatch(setStatusAC("failed"))
             }
         })
         .catch((error) => {
@@ -77,7 +80,7 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: D
             dispatch(setStatusAC("failed"))
         })
 }
-export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
+export const addTaskTC = (todolistId: string, title: string) => (dispatch: ThunkActionType) => {
     dispatch(setStatusAC("loading"))
     taskAPI.createTask(todolistId, title)
         .then((res) => {
@@ -99,7 +102,7 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispa
         })
 }
 export const updateTaskTC = (todolistId: string, taskID: string, domainModel: UpdateDomainTaskModelType) =>
-    (dispatch: Dispatch<ActionType>, getState: () => AppRootStateType) => {
+    (dispatch: ThunkActionType, getState: () => AppRootStateType) => {
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskID)
         if (!task) {
@@ -115,10 +118,12 @@ export const updateTaskTC = (todolistId: string, taskID: string, domainModel: Up
             status: task.status,
             ...domainModel
         }
+        dispatch(setStatusAC("loading"))
         taskAPI.updateTask(todolistId, taskID, apiModel)
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(updateTaskAC(todolistId, taskID, domainModel))
+                    dispatch(setStatusAC("succeeded"))
                 }
             })
     }
@@ -140,8 +145,9 @@ type ActionType =
     | RemoveTodolistAT
     | SetTodolistAT
     | ReturnType<typeof setTasksAC>
-    | SetErrorAT
-    | SetStatusAT
+
+type ThunkActionType = Dispatch<ActionType | SetErrorAT
+    | SetStatusAT>
 
 
 
