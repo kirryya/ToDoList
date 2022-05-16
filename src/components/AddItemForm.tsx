@@ -4,10 +4,10 @@ import {Button, TextField} from "@material-ui/core";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
-    todolistId?: string
+    disabled?: boolean
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem, disabled=false}) => {
 
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
@@ -39,6 +39,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem}
     return (
         <div>
             <TextField value={title}
+                       disabled={disabled}
                        onChange={onChangeSetTitle}
                        onKeyPress={onKeyPressSetTitle}
                        id="outlined-basic"
@@ -48,6 +49,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem}
                        error={!!errorMessage}
             />
             <Button variant="contained"
+                    disabled={disabled}
                     onClick={onClickAddTask}
                     style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}}
             >+</Button>
