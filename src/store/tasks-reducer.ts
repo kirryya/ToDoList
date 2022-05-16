@@ -139,6 +139,7 @@ export const updateTaskTC = (todolistId: string, taskID: string, domainModel: Up
                 if (res.data.resultCode === 0) {
                     dispatch(updateTaskAC(todolistId, taskID, domainModel))
                     dispatch(setAppStatusAC("succeeded"))
+                    dispatch(changeTaskEntityStatusAC(todolistId, taskID, "succeeded"))
                 } else {
                     if (res.data.messages.length) {
                         dispatch(setErrorAC(res.data.messages[0]))
@@ -152,7 +153,7 @@ export const updateTaskTC = (todolistId: string, taskID: string, domainModel: Up
             .catch((error) => {
                 dispatch(setErrorAC(error.message))
                 dispatch(setAppStatusAC("failed"))
-                dispatch(changeTaskEntityStatusAC(todolistId, taskID, "succeeded"))
+                dispatch(changeTaskEntityStatusAC(todolistId, taskID, "failed"))
             })
     }
 
