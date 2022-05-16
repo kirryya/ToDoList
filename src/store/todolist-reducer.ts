@@ -71,18 +71,17 @@ export const addTodoTC = (title: string) => (dispatch: ThunkActionsType): void =
     dispatch(setAppStatusAC("loading"))
     todolistAPI.createTodolist(title)
         .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(addTodolistAC(res.data.data.item))
-                dispatch(setAppStatusAC("succeeded"))
-            } else {
-                if (res.data.messages.length) {
+                if (res.data.resultCode === 0) {
+                    dispatch(addTodolistAC(res.data.data.item))
+                    dispatch(setAppStatusAC("succeeded"))
+                } else if (res.data.messages.length) {
                     dispatch(setErrorAC(res.data.messages[0]))
                 } else {
                     dispatch(setErrorAC('Some error occurred'))
                 }
                 dispatch(setAppStatusAC('failed'))
             }
-        })
+        )
         .catch((error) => {
             dispatch(setErrorAC(error.message))
             dispatch(setAppStatusAC("failed"))

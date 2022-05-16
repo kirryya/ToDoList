@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {taskAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "../api/task-api";
 import {AppRootStateType} from "../app/store";
 import {TasksStateType} from "../features/TodolistsList";
-import {setErrorAC, SetErrorAT, setAppStatusAC, SetStatusAT} from "../app/app-reducer";
+import {RequestStatusType, setAppStatusAC, setErrorAC, SetErrorAT, SetStatusAT} from "../app/app-reducer";
 
 const initialState: TasksStateType = {}
 
@@ -35,6 +35,12 @@ export const tasksReduser = (state: TasksStateType = initialState, action: Actio
         }
         case "SET-TASKS":
             return {...state, [action.todolistId]: action.tasks}
+        case "CHANGE-TASK-ENTITY-STATUS":
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId]
+                    .map(el => el.id === action.taskID ? {...el, entityTaskStatus: action.entityStatus} : el)
+            }
         default:
             return state
     }
@@ -49,6 +55,8 @@ export const updateTaskAC = (todolistId: string, taskID: string, model: UpdateDo
     ({type: "UPDATE-TASK", todolistId, taskID, model} as const)
 export const setTasksAC = (tasks: TaskType[], todolistId: string) =>
     ({type: "SET-TASKS", tasks, todolistId} as const)
+export const changeTaskEntityStatusAC = (todolistId: string, taskID: string, entityStatus: RequestStatusType) =>
+    ({type: "CHANGE-TASK-ENTITY-STATUS", todolistId, taskID, entityStatus} as const)
 
 // thunks
 export const getTasksTC = (todolistId: string) => (dispatch: ThunkActionType) => {
@@ -65,6 +73,7 @@ export const getTasksTC = (todolistId: string) => (dispatch: ThunkActionType) =>
 }
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: ThunkActionType) => {
     dispatch(setAppStatusAC("loading"))
+    dispatch(changeTaskEntityStatusAC(todolistId, taskId, "loading"))
     taskAPI.deleteTask(todolistId, taskId)
         .then((res) => {
             if (res.data.resultCode === 0) {
@@ -120,9 +129,11 @@ export const updateTaskTC = (todolistId: string, taskID: string, domainModel: Up
             startDate: task.startDate,
             title: task.title,
             status: task.status,
+            entityTaskStatus: task.entityTaskStatus,
             ...domainModel
         }
         dispatch(setAppStatusAC("loading"))
+        dispatch(changeTaskEntityStatusAC(todolistId, taskID, "loading"))
         taskAPI.updateTask(todolistId, taskID, apiModel)
             .then((res) => {
                 if (res.data.resultCode === 0) {
@@ -135,11 +146,13 @@ export const updateTaskTC = (todolistId: string, taskID: string, domainModel: Up
                         dispatch(setErrorAC('Some error occurred'))
                     }
                     dispatch(setAppStatusAC("failed"))
+                    dispatch(changeTaskEntityStatusAC(todolistId, taskID, "failed"))
                 }
             })
             .catch((error) => {
                 dispatch(setErrorAC(error.message))
                 dispatch(setAppStatusAC("failed"))
+                dispatch(changeTaskEntityStatusAC(todolistId, taskID, "succeeded"))
             })
     }
 
@@ -160,6 +173,7 @@ type ActionType =
     | RemoveTodolistAT
     | SetTodolistAT
     | ReturnType<typeof setTasksAC>
+    | ReturnType<typeof changeTaskEntityStatusAC>
 
 type ThunkActionType = Dispatch<ActionType | SetErrorAT
     | SetStatusAT>
