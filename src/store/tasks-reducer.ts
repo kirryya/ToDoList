@@ -3,7 +3,8 @@ import {Dispatch} from "redux";
 import {taskAPI, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "../api/task-api";
 import {AppRootStateType} from "../app/store";
 import {TasksStateType} from "../features/TodolistsList";
-import {RequestStatusType, setAppStatusAC, setErrorAC, SetErrorAT, SetStatusAT} from "../app/app-reducer";
+import {RequestStatusType, setAppStatusAC, SetErrorAT, SetStatusAT} from "../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 const initialState: TasksStateType = {}
 
@@ -67,8 +68,7 @@ export const getTasksTC = (todolistId: string) => (dispatch: ThunkActionType) =>
             dispatch(setAppStatusAC("succeeded"))
         })
         .catch((error) => {
-            dispatch(setErrorAC(error.message))
-            dispatch(setAppStatusAC("failed"))
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: ThunkActionType) => {
@@ -80,17 +80,11 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: T
                 dispatch(removeTaskAC(todolistId, taskId))
                 dispatch(setAppStatusAC("succeeded"))
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                } else {
-                    dispatch(setErrorAC("Some error occurred"))
-                }
-                dispatch(setAppStatusAC("failed"))
+                handleServerAppError(res.data, dispatch)
             }
         })
         .catch((error) => {
-            dispatch(setErrorAC(error.message))
-            dispatch(setAppStatusAC("failed"))
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const addTaskTC = (todolistId: string, title: string) => (dispatch: ThunkActionType) => {
@@ -101,17 +95,11 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Thunk
                 dispatch(addTaskAC(res.data.data.item))
                 dispatch(setAppStatusAC("succeeded"))
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                } else {
-                    dispatch(setErrorAC("Some error occurred"))
-                }
-                dispatch(setAppStatusAC("failed"))
+                handleServerAppError(res.data, dispatch)
             }
         })
         .catch((error) => {
-            dispatch(setErrorAC(error.message))
-            dispatch(setAppStatusAC("failed"))
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const updateTaskTC = (todolistId: string, taskID: string, domainModel: UpdateDomainTaskModelType) =>
@@ -141,18 +129,12 @@ export const updateTaskTC = (todolistId: string, taskID: string, domainModel: Up
                     dispatch(setAppStatusAC("succeeded"))
                     dispatch(changeTaskEntityStatusAC(todolistId, taskID, "succeeded"))
                 } else {
-                    if (res.data.messages.length) {
-                        dispatch(setErrorAC(res.data.messages[0]))
-                    } else {
-                        dispatch(setErrorAC('Some error occurred'))
-                    }
-                    dispatch(setAppStatusAC("failed"))
+                    handleServerAppError(res.data, dispatch)
                     dispatch(changeTaskEntityStatusAC(todolistId, taskID, "failed"))
                 }
             })
             .catch((error) => {
-                dispatch(setErrorAC(error.message))
-                dispatch(setAppStatusAC("failed"))
+                handleServerNetworkError(error, dispatch)
                 dispatch(changeTaskEntityStatusAC(todolistId, taskID, "failed"))
             })
     }
