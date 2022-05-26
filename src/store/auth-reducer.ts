@@ -3,8 +3,6 @@ import {authAPI, LoginParamsType} from "../api/auth-api";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import {setAppStatusAC, SetErrorAT, SetStatusAT} from "../app/app-reducer";
 
-
-
 const initialState = {
     isLoggedIn: false
 }
