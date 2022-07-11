@@ -30,13 +30,13 @@ export const setInitializedAC = (isInitialized: boolean) => ({type: 'APP/SET-INI
 
 // thunk
 export const initializeAppTC = () => (dispatch: Dispatch) => {
-    authAPI.me().then(res => {
-        if (res.data.resultCode === 0) {
-            dispatch(setInitializedAC(true))
-            dispatch(setIsLoggedInAC(true));
-        } else {
-        }
-    })
+    authAPI.me()
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setInitializedAC(true))
+                dispatch(setIsLoggedInAC(true));
+            }
+        })
 }
 
 //types
