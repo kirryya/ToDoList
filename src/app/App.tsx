@@ -22,12 +22,12 @@ export function App() {
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
     const dispatch = useAppDispatch()
 
-    if (!isInitialized) {
+    /*if (!isInitialized) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
-    }
+    }*/
 
     return (
         <div className="App">
